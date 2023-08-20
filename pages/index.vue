@@ -12,7 +12,12 @@
       <div v-for="movie in data?.results" :key="movie.id">
         <MovieCard :movie="movie" />
       </div>
+    </div>
 
+    <div v-if="data?.results.length" class="flex justify-center gap-2">
+      <button v-if="!disabledPrevious" class="py-4 px-2 text-base border rounded-lg" @click="page--">Previous</button>
+      <p class="py-4 px-2 text-base border rounded-lg">{{ page }}</p>
+      <button v-if="!disabledNext" class="py-4 px-2 text-base border rounded-lg" @click="page++">Next</button>
     </div>
   </div>
 </template>
@@ -23,15 +28,15 @@ import { APIResponse } from 'types/APIResponse';
 const searchTerm = ref('');
 const debouncedSearchTerm = refDebounced(searchTerm, 700);
 
+const page = ref(1);
+const disabledPrevious = computed(() => page.value === 1);
+const disabledNext = computed(() => page.value + 1 === data.value?.total_pages);
+
 const url = computed(() => {
-  return `/api/movies/search?query=${debouncedSearchTerm.value}`
+  return `/api/movies/search?query=${debouncedSearchTerm.value}&page=${page.value}`
 });
 
 const { data } = await useFetch<APIResponse>(url);
-
-console.log(data.value);
-
-
 
 </script>
 
