@@ -1,7 +1,7 @@
 export default defineEventHandler((event) => {
-  const { query } = getQuery(event);
+  const id = [...event.node.req.url].pop();
   const config = useRuntimeConfig();
-  return $fetch(`${config.apiBaseUrl}/search/movie?query=${query}`, {
+  return $fetch(`${config.apiBaseUrl}/movie/${id}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${config.apiKey}`,

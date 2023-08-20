@@ -8,4 +8,8 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  runtimeConfig: {
+    apiKey: "",
+    apiBaseUrl: "",
+  },
 });
