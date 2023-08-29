@@ -1,4 +1,3 @@
-
 export type Movie = {
   adult: boolean;
   backdrop_path: string;
@@ -20,4 +19,20 @@ export type Movie = {
   vote_average: number;
   vote_count: number;
   runtime?: number | null;
+  videos?: {
+    results: [
+      {
+        iso_639_1: "";
+        iso_3166_1: "";
+        name: "";
+        key: "";
+        site: "";
+        size: number;
+        type: "";
+        official: boolean;
+        published_at: "";
+        id: "";
+      }
+    ];
+  };
 };

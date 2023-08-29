@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { Movie } from "types/Movie";
-import { defineProps, PropType } from "vue";
+import { PropType } from "vue";
 const props = defineProps({
   movie: {
     type: Object as PropType<Movie>,
