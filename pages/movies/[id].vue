@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col px-20 mt-10">
-    <movie-trailer class="hidden md:block" v-if="trailerKey" :trailer-key="trailerKey" />
+    <movie-trailer class="mb-8" v-if="trailerKey" :trailer-key="trailerKey" />
     <div v-else class="hidden md:block relative overflow-hidden rounded-lg mb-4">
       <img
         class="w-full h-96 object-center object-cover"
@@ -15,13 +15,13 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-5 gap-2">
-      <img class="w-full md:col-span-2" :src="imageUrl" alt="" />
+      <img class="w-full md:col-span-2 hidden md:block" :src="imageUrl" alt="" />
       <div class="flex flex-col md:col-span-3">
         <div class="text-4xl font-sans font-bold mb-5">
           {{ data?.title }}
         </div>
 
-        <div class="flex">
+        <div class="flex flex-wrap">
           <div
             v-for="genre in data?.genres"
             :key="genre.id"
