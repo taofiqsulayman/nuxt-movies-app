@@ -28,7 +28,7 @@
     <div
       class="grid grid-cols-1 md:grid-col-3 lg:grid-cols-4 xl:grid-cols-5 self-center gap-10 mb-10"
     >
-      <div v-for="movie in moviesToShow" :key="movie.id">
+      <div v-for="movie in displayedMovies" :key="movie.id">
         <MovieCard :movie="movie" />
       </div>
     </div>
@@ -56,17 +56,6 @@
 <script setup lang="ts">
 import { APIResponse } from "types/APIResponse";
 
-const defaultMovies = ref<APIResponse | null>(null);
-
-const defaultMoviesUrl = computed(() => {
-  return `/api/movies/trending`;
-});
-
-const fetchDefaultMovies = async () => {
-  const response = await useFetch<APIResponse>(defaultMoviesUrl.value);
-  defaultMovies.value = response.data.value;
-};
-
 const searchTerm = ref("");
 const debouncedSearchTerm = refDebounced(searchTerm, 700);
 
@@ -80,17 +69,21 @@ const url = computed(() => {
 
 const { data } = await useFetch<APIResponse>(url);
 
-const moviesToShow = computed(() => {
-  return searchTerm.value
-    ? data.value?.results
-    : defaultMovies.value?.results || [];
-});
-
 const resetSearchTerm = () => {
   searchTerm.value = '';
 };
 
-onMounted(() => {
-  fetchDefaultMovies();
+const defaultMoviesUrl = computed(() => {
+  return `/api/movies/trending`;
 });
+const defaultMovies = await useFetch<APIResponse>(defaultMoviesUrl.value).data;
+
+const displayedMovies = computed(() => {
+  if (searchTerm.value) {
+    return data.value?.results || [];
+  } else {
+    return defaultMovies.value?.results || [];
+  }
+});
+
 </script>
