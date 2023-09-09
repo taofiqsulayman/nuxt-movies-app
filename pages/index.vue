@@ -1,27 +1,60 @@
 <template>
   <div class="flex flex-col">
     <div class="flex justify-center items-center h-32">
-      <input type="text" class="px-2 py-1 border border-gray-800 rounded-md min-w-64" v-model="searchTerm" placeholder="Search ...">
+      <input
+        type="text"
+        class="px-2 py-1 border border-gray-800 rounded-md min-w-64"
+        v-model="searchTerm"
+        placeholder="Search Movies ..."
+      />
+      <button v-if="searchTerm" class="ml-2" @click="resetSearchTerm">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          class="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-col-3 lg:grid-cols-4 xl:grid-cols-5 self-center gap-10 mb-10">
+    <div
+      class="grid grid-cols-1 md:grid-col-3 lg:grid-cols-4 xl:grid-cols-5 self-center gap-10 mb-10"
+    >
       <div v-for="movie in moviesToShow" :key="movie.id">
         <MovieCard :movie="movie" />
       </div>
     </div>
 
     <div v-if="data?.results.length" class="flex justify-center gap-2">
-      <button v-if="!disabledPrevious" class="py-4 px-2 text-base border rounded-lg" @click="page--">Previous</button>
+      <button
+        v-if="!disabledPrevious"
+        class="py-4 px-2 text-base border rounded-lg"
+        @click="page--"
+      >
+        Previous
+      </button>
       <p class="py-4 px-2 text-base border rounded-lg">{{ page }}</p>
-      <button v-if="!disabledNext" class="py-4 px-2 text-base border rounded-lg" @click="page++">Next</button>
+      <button
+        v-if="!disabledNext"
+        class="py-4 px-2 text-base border rounded-lg"
+        @click="page++"
+      >
+        Next
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { APIResponse } from 'types/APIResponse';
-
-
+import { APIResponse } from "types/APIResponse";
 
 const defaultMovies = ref<APIResponse | null>(null);
 
@@ -29,13 +62,12 @@ const defaultMoviesUrl = computed(() => {
   return `/api/movies/trending`;
 });
 
-// Fetch default movies and set them in defaultMovies ref
 const fetchDefaultMovies = async () => {
   const response = await useFetch<APIResponse>(defaultMoviesUrl.value);
   defaultMovies.value = response.data.value;
 };
 
-const searchTerm = ref('');
+const searchTerm = ref("");
 const debouncedSearchTerm = refDebounced(searchTerm, 700);
 
 const page = ref(1);
@@ -49,14 +81,16 @@ const url = computed(() => {
 const { data } = await useFetch<APIResponse>(url);
 
 const moviesToShow = computed(() => {
-  // If there's a search term, show search results, otherwise show default movies
-  return searchTerm.value ? data.value?.results : defaultMovies.value?.results || [];
+  return searchTerm.value
+    ? data.value?.results
+    : defaultMovies.value?.results || [];
 });
 
-// Fetch default movies when the component is first mounted
+const resetSearchTerm = () => {
+  searchTerm.value = '';
+};
+
 onMounted(() => {
   fetchDefaultMovies();
 });
-
 </script>
-

@@ -1,6 +1,6 @@
 <template>
   <div class="h-128 w-64 border flex flex-col text-center">
-    <NuxtLink :to="`/movies/${movie?.id}`" class="mb-5 bg-green-600 inline-block">
+    <NuxtLink :to="`/movies/${movie?.id}`" class="mb-5 bg-[#d7bebe59] inline-block">
       <img class="transform hover:translate-x-6 hover:-translate-y-6 delay-50 duration-100 inline-block h-96 w-64" :src="imageUrl" alt="Movie Poster">
     </NuxtLink>
     <div class="text-lg">
