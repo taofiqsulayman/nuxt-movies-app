@@ -1,3 +1,5 @@
+import { MovieCredits } from "./MovieCredits";
+
 export type Movie = {
   adult: boolean;
   backdrop_path: string;
@@ -35,4 +37,5 @@ export type Movie = {
       }
     ];
   };
+  credits?: MovieCredits
 };

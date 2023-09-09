@@ -1,7 +1,10 @@
 <template>
-  <div class="flex flex-col px-20 mt-10">
+  <div class="flex flex-col px-2 md:px-10 mt-10">
     <movie-trailer class="mb-8" v-if="trailerKey" :trailer-key="trailerKey" />
-    <div v-else class="hidden md:block relative overflow-hidden rounded-lg mb-4">
+    <div
+      v-else
+      class="hidden md:block relative overflow-hidden rounded-lg mb-4"
+    >
       <img
         class="w-full h-96 object-center object-cover"
         :src="backdropImageUrl"
@@ -14,8 +17,12 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-2">
-      <img class="w-full md:col-span-2 hidden md:block" :src="imageUrl" alt="" />
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-2 md:gap-10">
+      <img
+        class="w-full md:col-span-2 hidden md:block"
+        :src="imageUrl"
+        alt=""
+      />
       <div class="flex flex-col md:col-span-3">
         <div class="text-4xl font-sans font-bold mb-5">
           {{ data?.title }}
@@ -47,8 +54,12 @@
             {{ data?.vote_average }}
           </span>
         </div>
-
         <div class="text-sm mb-2">Total votes: {{ data?.vote_count }}</div>
+
+        <div class="mt-8">
+          <h2 class="text-2xl font-semibold">Cast</h2>
+          <Casts :castList="data?.credits?.cast.slice(0, 12)" :config="config" />
+        </div>
       </div>
     </div>
   </div>
