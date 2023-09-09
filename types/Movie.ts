@@ -15,7 +15,7 @@ export type Movie = {
   overview: string;
   popularity: number;
   poster_path: string;
-  release_date: string; // YYYY-MM-DD
+  release_date: string; 
   title: string;
   video: boolean;
   vote_average: number;

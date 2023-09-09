@@ -10,5 +10,3 @@ export default defineEventHandler((event) => {
   });
 });
 
-
-

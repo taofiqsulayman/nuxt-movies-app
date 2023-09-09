@@ -5,7 +5,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-col-3 lg:grid-cols-4 xl:grid-cols-5 self-center gap-10 mb-10">
-      <div v-for="movie in data?.results" :key="movie.id">
+      <div v-for="movie in moviesToShow" :key="movie.id">
         <MovieCard :movie="movie" />
       </div>
     </div>
@@ -21,6 +21,20 @@
 <script setup lang="ts">
 import { APIResponse } from 'types/APIResponse';
 
+
+
+const defaultMovies = ref<APIResponse | null>(null);
+
+const defaultMoviesUrl = computed(() => {
+  return `/api/movies/trending`;
+});
+
+// Fetch default movies and set them in defaultMovies ref
+const fetchDefaultMovies = async () => {
+  const response = await useFetch<APIResponse>(defaultMoviesUrl.value);
+  defaultMovies.value = response.data.value;
+};
+
 const searchTerm = ref('');
 const debouncedSearchTerm = refDebounced(searchTerm, 700);
 
@@ -29,10 +43,20 @@ const disabledPrevious = computed(() => page.value === 1);
 const disabledNext = computed(() => page.value + 1 === data.value?.total_pages);
 
 const url = computed(() => {
-  return `/api/movies/search?query=${debouncedSearchTerm.value}&page=${page.value}`
+  return `/api/movies/search?query=${debouncedSearchTerm.value}&page=${page.value}`;
 });
 
 const { data } = await useFetch<APIResponse>(url);
+
+const moviesToShow = computed(() => {
+  // If there's a search term, show search results, otherwise show default movies
+  return searchTerm.value ? data.value?.results : defaultMovies.value?.results || [];
+});
+
+// Fetch default movies when the component is first mounted
+onMounted(() => {
+  fetchDefaultMovies();
+});
 
 </script>
 
