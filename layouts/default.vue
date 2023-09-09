@@ -5,11 +5,16 @@
         Movie App
       </NuxtLink>
     </div>
-    <nav class="flex justify-center mt-2">
-      <NuxtLink class="px-4 py-2 border rounded" to="/"> Home </NuxtLink>
+    <nav v-if="!isHome" class="flex justify-center mt-2">
+      <NuxtLink class="px-4 py-2 border rounded" to="/"> Go Home </NuxtLink>
     </nav>
     <main>
       <slot />
     </main>
   </div>
 </template>
+
+<script setup lang="ts">
+// check if its the homepage
+const isHome = useRoute().path === '/';
+</script>
