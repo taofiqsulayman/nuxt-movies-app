@@ -84,10 +84,10 @@ const backdropImageUrl = computed(() =>
     ? `${config.public.backdropUrl}/${data.value.backdrop_path}`
     : "https://via.placeholder.com/300x500"
 );
-const trailerKey = computed(() =>
-  data.value?.videos?.results?.length !== undefined &&
-  data.value.videos.results.length > 0
-    ? data.value.videos.results[0].key
-    : null
-);
+const trailerKey = computed(() => {
+  const videos = data.value?.videos?.results || [];
+  const trailer = videos.find(video => video.type === "Trailer");
+  return trailer ? trailer.key : null;
+});
+
 </script>
