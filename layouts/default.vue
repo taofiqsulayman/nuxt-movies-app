@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex self-center justify-center mt-10">
-      <NuxtLink class="text-2xl font-bold text-center bg-teal-300 text-slate-100 rounded-lg" to="/">
+      <NuxtLink class="text-2xl font-bold text-center bg-teal-400 text-slate-100 rounded-lg mx-4 my-2 animate-pulse" to="/">
         Movie App
       </NuxtLink>
     </div>
